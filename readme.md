@@ -10,4 +10,4 @@ Site feito em laravel para gerenciamento de séries utilizando filas
 
 ## Docker
 
-* Rodar o comendo: docker-compose up
+* Rodar o comando: docker-compose up
