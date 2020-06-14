@@ -1,0 +1,39 @@
+version: '3'
+services:
+  php:
+    build:
+      dockerfile: ./php.dockerfile
+      context: .
+    image: fellipeg/php-laravel
+    command: bash -c "composer install && php artisan migrate && php artisan serve --host=0.0.0.0 --port=8000"
+    volumes:
+      - ./:/var/www
+    container_name: php
+    ports:
+      - "80:8000"
+    networks:
+      - laravel
+    depends_on:
+      - "mysql"
+
+  mysql:
+    image: mysql:8
+    volumes:
+      - ./volume/mysql:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: 'series'
+      # So you don't have to use root, but you can if you like
+      MYSQL_USER: 'root'
+      # You can use whatever password you like
+      MYSQL_PASSWORD: ''
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    networks:
+      - laravel
+
+
+networks:
+  laravel:
+    driver: bridge
+
